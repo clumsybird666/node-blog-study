@@ -1,9 +1,10 @@
 const {userLogin} =require('../controller/user')
 const { SuccessModel, ErrorModel } = require('../model/resModel')
 //获取cookie的过期时间
-const getCookieExpires=()=>{
+const getCookieExpires = () => {
   const d = new Date()
-  d.setTime(d.getTime+60*60*24**1000)
+  d.setTime(d.getTime() + 60 * 60 * 24 * 1000)
+  console.log(d.toGMTString());
   return d.toGMTString()
 }
 const handleUserRouter = (req, res) => {
@@ -15,7 +16,7 @@ const handleUserRouter = (req, res) => {
     const { username, password } = req.query
     let result = userLogin(username, password)
     if(result){
-      res.setHeader('Set-Cookie',`username=${username};path=/;httpOnly`)
+      res.setHeader('Set-Cookie',`username=${username};path=/;httpOnly;expires=${getCookieExpires()}`)
       return new SuccessModel()
     }
     return new ErrorModel()

@@ -4,7 +4,8 @@ const querystring = require('querystring')
 const { request } = require('http')
 const { rejects } = require('assert')
 const { resolve } = require('path')
-
+//session数据
+const SESSION_DATA
 const getPostDate = (req) => {
   const promise = new Promise((resolve, reject) => {
     if (req.method !== 'POST') {
@@ -47,7 +48,18 @@ const serverHandle = (req, res) => {
     req.cookie[key]=value
   });
   console.log(req.cookie);
-
+  //解析session
+  const userId = req.cookie.userid
+  if (userId) {
+    if (!SESSION_DATA[userId]) {
+      SESSION_DATA[userId] = {}
+    }
+  }else{
+    userId = Date().now()
+    SESSION_DATA[userId] = {}
+  }
+  req.session = SESSION_DATA[userId]
+  
   getPostDate(req).then(postData => {
     console.log(postData);
     req.body = postData
