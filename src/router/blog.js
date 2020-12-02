@@ -1,5 +1,11 @@
 const {getList,getDetail,newBlog,updateBlog,delBlog} = require('../controller/blog')
 const { SuccessModel, ErrorModel } = require('../model/resModel')
+
+//统一的登录验证函数
+const loginCheck=(req)=>{
+  
+}
+
 const handleBlogRouter = (req, res) => {
   const method = req.method
   const url = req.url
